@@ -77,7 +77,7 @@ python fishing.py image -f yolox/exp/yolox_tiny_fish.py -c weights/best_tiny3.pt
 YOLOX部分因为打标签太累所以用半监督学习。标注少量样本后训练模型生成其余样本伪标签再人工修正，不断迭代提高精度。
 样本量较少所以使用迁移学习，在COCO预训练的模型上进行fine-tuning.
 
-下载数据集并解压：[原神鱼群数据集](https://1drv.ms/u/s!Agabh9imkP8qhHkZYzKsi_OQ4pfj?e=V2VApo), 
+下载数据集并解压：[原神鱼群数据集](https://1drv.ms/u/s!Agabh9imkP8qhHkZYzKsi_OQ4pfj?e=V2VApo),
 [数据集(迅雷云盘:ugha)](https://pan.xunlei.com/s/VMkCJx-bOnpF431_9R0E8vAsA1)
 
 将yolox/exp/yolox_tiny_fish.py中的self.data_dir的值改为解压后2个文件夹所在的路径。
@@ -85,19 +85,4 @@ YOLOX部分因为打标签太累所以用半监督学习。标注少量样本后
 训练代码:
 ```shell
 python yolox_tools/train.py -f yolox/exp/yolox_tiny_fish.py -d 1 -b 8 --fp16 -o -c weights/yolox_tiny.pth
-```
-
-# DQN训练工作流程
-控制力度使用强化学习模型DQN进行训练。两次进度的差值作为reward为模型提供学习方向。模型与环境间交互式学习。
-
-直接在原神内训练耗时较长，太累了。首先制作一个仿真环境，大概模拟钓鱼力度控制操作。在仿真环境内预训练一个模型。
-随后将这一模型迁移至原神内，实现域间迁移。
-
-仿真环境预训练代码:
-```shell
-python train_sim.py
-```
-原神游戏内训练:
-```shell
-python train.py
 ```
